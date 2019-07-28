@@ -1,3 +1,5 @@
-# QQ
-A simple task to build a communication software like QQ.
-The mission achieved based on socket communicationg and remote dataset access.
+文件结构为Intellij IDEA的默认结构，源码在src目录下，out目录为编译的class文件目录，Images文件包含了程序所用的图片，figure目录为程序的运行截图。
+
+程序使用了MySQL数据库，正常运行程序需要安装MySQL，并且按照实验报告的第二部分描述的数据库结构进行建表的操作。
+
+src/com/Chat/SocketNotifyServer.java是服务器端入口文件。src/com/Interface/test_1.java是客户端入口文件。运行顺序是先运行服务器端入口文件，再开启客户端程序。

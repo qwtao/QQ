@@ -1,8 +1,5 @@
 package com.Chat;
 
-/**
- * Created by lmz on 2018/4/27 0027.
- */
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.ServerSocket;

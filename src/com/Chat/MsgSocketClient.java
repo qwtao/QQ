@@ -1,8 +1,5 @@
 package com.Chat;
 
-/**
- * Created by lmz on 2018/4/27 0027.
- */
 import com.Interface.FriendView;
 import com.Interface.friend;
 
@@ -20,7 +17,7 @@ public class MsgSocketClient {
     OutputStream out = null;
     int admin_id;
     ArrayList<String> receive = new ArrayList<>();
-    public ArrayList<Integer> chat_open = new ArrayList<>();
+    public ArrayList<Integer> chat_open = new ArrayList<>();    // 记录私聊的窗口，元素是私聊的朋友的id值
     int i;
     FileInputStream fis;
     FileOutputStream fos;
@@ -39,12 +36,12 @@ public class MsgSocketClient {
         this.admin_id = admin_id;
         try{
             //this.sessionMap = sessionMap;
-            this.socket = new Socket("LMZ", 8888);
+            this.socket = new Socket("127.0.0.1", 8888);
             System.out.println("客户端启动.......");
             chatsend(admin_id, admin_id+":login");
             //System.out.println(admin_id+":login");
         }catch (Exception e){
-            e.getStackTrace();
+            e.printStackTrace();
         }
 
     }
@@ -65,13 +62,16 @@ public class MsgSocketClient {
         return length + "B";
     }
 
-    public void chat(int friend_id, PrivateChat pc){
+    public Thread chat(int friend_id, PrivateChat pc){
         PrivateChat privateChat = pc;
         Socket socket = this.socket;
+        // 用户每开一个私聊的窗口，就会新建一个线程，处理该窗口对方的消息（实质上是对方向服务器发送消息，由服务器转发到该用户）
+        // 问题：当关闭窗口时，该线程应该被中止掉。
+        // 解决方法：将线程对象返回，在PrivateChat中增加关闭窗口时的处理代码——将线程终止。
 
         try{
             // 接受返回数据
-            new Thread() {
+            Thread thread = new Thread() {
                 public void run() {
                     try {
                         while (true) {
@@ -96,18 +96,25 @@ public class MsgSocketClient {
                         e.printStackTrace();
                     }
                 }
-            }.start();
+            };
+            thread.start();
+            return thread;
         }catch (Exception e){
             e.getStackTrace();
         }
+        return null;
     }
 
-    public void pchat(int group_id, PublicChat pc){
-        PublicChat publicChat = pc;
+    public Thread pchat(int group_id, PublicChat publicchat){
+        PublicChat publicChat = publicchat;
         Socket socket = this.socket;
+        // 类似于chat方法，用户每开一个群聊的窗口，也会新建一个线程，处理该群聊中其他用户的消息
+        // （实质上是其他用户向服务器发送消息，由服务器转发到该用户）
+        // 问题：当关闭群聊窗口时，该线程应该被中止掉。
+        // 解决方法：将线程对象返回，在PublicChat中增加关闭窗口时的处理代码——将线程终止。
         try{
             // 接受返回数据
-            new Thread() {
+            Thread thread = new Thread() {
                 public void run() {
                     try {
                         while (true) {
@@ -120,6 +127,7 @@ public class MsgSocketClient {
                                     receive.remove(i);
                                 }
                                 else if(receive.get(i)!=null && receive.get(i).split(":")[0].equals("online")){
+                                    // 将在线的人的背景置为绿色
                                     for(int j = 0; j < receive.get(i).split(":")[1].split(",").length; j++){
 
                                         if(publicChat.str.contains(Integer.parseInt((receive.get(i).split(":")[1].split(","))[j]))){
@@ -142,14 +150,19 @@ public class MsgSocketClient {
                         e.printStackTrace();
                     }
                 }
-            }.start();
+            };
+            thread.start();
+            return thread;
         }catch (Exception e){
             e.getStackTrace();
         }
+        return null;
     }
 
     public void chatreceive(){
-
+        /*
+        用来接收服务器发来的消息，将它们存在this.receive中
+         */
         Socket socket = this.socket;
         try{
             // 接受返回数据
@@ -190,7 +203,7 @@ public class MsgSocketClient {
                             else{
                                 receive.add(msg.getMsg());
                                 if(!msg.getMsg().equals("") && !msg.getMsg().split(":")[0].equals("online")){
-                                    //if not contain friend_id
+                                    // 如果收到了A的消息，却没有打开和A单聊的窗口，则弹出一个单聊窗口
                                     if(chat_open==null || !chat_open.contains(Integer.parseInt(msg.getMsg().split(":")[0]))){
                                         int friend_id = Integer.parseInt(msg.getMsg().split(":")[0]);
                                         new PrivateChat(admin_id,new friend().get_id(friend_id),MsgSocketClient.this);
@@ -211,6 +224,9 @@ public class MsgSocketClient {
 
 
     public void chatsend(int friend_id, String messsage) {
+        /*
+            向朋友发送消息
+         */
         try{
             socket = this.socket;
             out = socket.getOutputStream();
@@ -227,6 +243,9 @@ public class MsgSocketClient {
     }
 
     public void groupsend(String messsage, ArrayList<Integer> list) {
+        /*
+            向群中的每个人发送消息
+         */
         try {
             socket = this.socket;
             out = socket.getOutputStream();
@@ -265,6 +284,13 @@ public class MsgSocketClient {
     }
 
     public void filesend(File file, int friend_id, int admin_id) throws Exception{
+        /*
+                向好友传输文件。传输流程：向服务器传输
+                    1. file: + friend_id + admin_id
+                    2. 文件名和长度
+                    3. 文件内容
+                之后，由服务器向friend传输文件
+         */
         try {
             socket = this.socket;
             out = socket.getOutputStream();

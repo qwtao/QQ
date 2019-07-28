@@ -2,14 +2,10 @@ package com.Interface;
 import java.sql.*;
 import java.util.*;
 
-/**
- * Created by lmz on 2018/4/7 0007.
- */
 public class CreateTable {
-    static final String DB_URL = "jdbc:mysql://LMZ/login";
-    //My localhost is LMZ, which can be changed.
+    static final String DB_URL = "jdbc:mysql://localhost:3306/qq?useSSL=false";
     static final String USER = "root";
-    static final String PASS = "xflmz36";
+    static final String PASS = "123456";
     public CreateTable(int id, String name, String pwd) {
         Connection conn = null;
         PreparedStatement pstmt = null;
@@ -24,12 +20,14 @@ public class CreateTable {
             System.out.println("Connected database successfully...");
 
             //STEP 4: Execute a query
-            String sql ="insert into admin(id,name,pwd) value(?,?,?);  ";
+            String sql ="insert into admin(id,name,pwd,head,back) value(?,?,?,?,?);  ";
             pstmt = conn.prepareStatement(sql);
             //test admin_id
             pstmt.setInt(1,id);
             pstmt.setString(2,name);
             pstmt.setString(3,pwd);
+            pstmt.setString(4,"9.gif");
+            pstmt.setString(5,"19.jpg");
             pstmt.executeUpdate();
         }catch(SQLException se){
             //Handle errors for JDBC

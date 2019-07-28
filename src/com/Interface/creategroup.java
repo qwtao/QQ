@@ -9,9 +9,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
-/**
- * Created by lmz on 2018/5/8 0008.
- */
+
 public class creategroup extends JFrame{
     private JButton
             b1 = new JButton("确定"),
@@ -63,9 +61,9 @@ public class creategroup extends JFrame{
                     repaint();
                 }
                 else{
-                    String DB_URL = "jdbc:mysql://LMZ/login";
+                    String DB_URL = "jdbc:mysql://localhost:3306/qq?useSSL=false";
                     String USER = "root";
-                    String PASS = "xflmz36";
+                    String PASS = "123456";
                     Connection conn = null;
                     PreparedStatement pstmt = null;
                     String name = null;
@@ -106,7 +104,7 @@ public class creategroup extends JFrame{
         b2.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.exit(0);
+                setVisible(false);
             }
         });
         add(b1);

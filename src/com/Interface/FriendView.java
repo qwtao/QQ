@@ -6,9 +6,6 @@ import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
 
-/**
- * Created by lmz on 2018/4/12 0012.
- */
 public class FriendView implements ActionListener,MouseListener{
      JFrame jf=new JFrame();
     //背景图层
@@ -116,7 +113,7 @@ public class FriendView implements ActionListener,MouseListener{
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
                 if (e.getButton() == MouseEvent.BUTTON3){
-                    //GG弹出菜单
+                    //鼠标右键：GG弹出菜单
                     jp.show(jf,e.getX(),e.getY());}}
         });
         b5.addActionListener(this);
@@ -232,6 +229,25 @@ public class FriendView implements ActionListener,MouseListener{
     }
 
     //处理第二张卡片方法
+    void friend_zone(){
+
+        str = new friend().admin_friend(admin_id);
+        str1 = new friend().admin_friend_head(admin_id);
+
+        jp_jsp = new JPanel(new GridLayout(str.size(),1));
+        jsp = new JScrollPane(jp_jsp);
+
+        JLabel[] jbls = new JLabel[str.size()];
+        for(int i=0; i<jbls.length; i++)
+        {
+            jbls[i] = new JLabel(str.get(i), new ImageIcon("Images/"+str1.get(i)), JLabel.LEFT);
+            jbls[i].addMouseListener(this);
+            jp_jsp.add(jbls[i]);
+        }
+
+        jsp.setBounds(1, 35, 275, 249);
+    }
+
     public void secondCard()
     {
         jp2 = new JPanel();
@@ -281,23 +297,9 @@ public class FriendView implements ActionListener,MouseListener{
         jp2_jb5.setForeground(Color.white);
         jp2_jb5.setContentAreaFilled(false);
 
-        str = new friend().admin_friend(admin_id);
-        str1 = new friend().admin_friend_head(admin_id);
-
-        jp_jsp = new JPanel(new GridLayout(str.size(),1));
-        jsp = new JScrollPane(jp_jsp);
-
-        JLabel[] jbls = new JLabel[str.size()];
-        for(int i=0; i<jbls.length; i++)
-        {
-            jbls[i] = new JLabel(str.get(i), new ImageIcon("Images/"+str1.get(i)), JLabel.LEFT);
-            jbls[i].addMouseListener(this);
-            jp_jsp.add(jbls[i]);
-        }
-
-        jsp.setBounds(1, 35, 275, 249);
-
+        friend_zone();
         jp2.add(jsp);
+
         jp2.add(jp2_jb1);
         jp2.add(jp2_jb2);
         jp2.add(jp2_jb3);
@@ -308,55 +310,7 @@ public class FriendView implements ActionListener,MouseListener{
     }
 
     //处理第三张卡片方法
-    public void thirdCard()
-    {
-        jp3 = new JPanel();
-
-        jp3_jb1 = new JButton("> 我的好友");
-        jp3_jb1.addActionListener(this);
-        jp3_jb1.setLayout(null);
-        jp3_jb1.setSize(277, 35);
-        jp3_jb1.setHorizontalAlignment(SwingConstants.LEFT );
-        jp3_jb1.setFont(new Font("黑体", Font.BOLD, 15));
-        jp3_jb1.setForeground(Color.white);
-        jp3_jb1.setContentAreaFilled(false);
-
-        jp3_jb2 = new JButton("↓ 我的群组");
-        jp3_jb2.addActionListener(this);
-        jp3_jb2.setLayout(null);
-        jp3_jb2.setBounds(0, 35, 277, 35);
-        jp3_jb2.setHorizontalAlignment(SwingConstants.LEFT );
-        jp3_jb2.setFont(new Font("黑体", Font.BOLD, 15));
-        jp3_jb2.setForeground(Color.white);
-        jp3_jb2.setContentAreaFilled(false);
-
-        jp3_jb3 = new JButton("添加好友");
-        jp3_jb3.addActionListener(this);
-        jp3_jb3.setLayout(null);
-        jp3_jb3.setBounds(0, 319, 92, 35);
-        jp3_jb3.setHorizontalAlignment(SwingConstants.LEFT );
-        jp3_jb3.setFont(new Font("黑体", Font.BOLD, 13));
-        jp3_jb3.setForeground(Color.white);
-        jp3_jb3.setContentAreaFilled(false);
-
-        jp3_jb4 = new JButton("添加群组");
-        jp3_jb4.addActionListener(this);
-        jp3_jb4.setLayout(null);
-        jp3_jb4.setBounds(92, 319, 92, 35);
-        jp3_jb4.setHorizontalAlignment(SwingConstants.LEFT );
-        jp3_jb4.setFont(new Font("黑体", Font.BOLD, 13));
-        jp3_jb4.setForeground(Color.white);
-        jp3_jb4.setContentAreaFilled(false);
-
-        jp3_jb5 = new JButton("通  知");
-        jp3_jb5.addActionListener(this);
-        jp3_jb5.setLayout(null);
-        jp3_jb5.setBounds(184, 319, 93, 35);
-        jp3_jb5.setHorizontalAlignment(SwingConstants.LEFT );
-        jp3_jb5.setFont(new Font("黑体", Font.BOLD, 13));
-        jp3_jb5.setForeground(Color.white);
-        jp3_jb5.setContentAreaFilled(false);
-
+    void group_zone(){
         str = new friend().admin_group(admin_id);
         str1 = new friend().admin_group_head(admin_id);
 
@@ -409,7 +363,57 @@ public class FriendView implements ActionListener,MouseListener{
         }
 
         jsp2.setBounds(1, 70, 275, 249);
+    }
+    public void thirdCard()
+    {
+        jp3 = new JPanel();
 
+        jp3_jb1 = new JButton("> 我的好友");
+        jp3_jb1.addActionListener(this);
+        jp3_jb1.setLayout(null);
+        jp3_jb1.setSize(277, 35);
+        jp3_jb1.setHorizontalAlignment(SwingConstants.LEFT );
+        jp3_jb1.setFont(new Font("黑体", Font.BOLD, 15));
+        jp3_jb1.setForeground(Color.white);
+        jp3_jb1.setContentAreaFilled(false);
+
+        jp3_jb2 = new JButton("↓ 我的群组");
+        jp3_jb2.addActionListener(this);
+        jp3_jb2.setLayout(null);
+        jp3_jb2.setBounds(0, 35, 277, 35);
+        jp3_jb2.setHorizontalAlignment(SwingConstants.LEFT );
+        jp3_jb2.setFont(new Font("黑体", Font.BOLD, 15));
+        jp3_jb2.setForeground(Color.white);
+        jp3_jb2.setContentAreaFilled(false);
+
+        jp3_jb3 = new JButton("添加好友");
+        jp3_jb3.addActionListener(this);
+        jp3_jb3.setLayout(null);
+        jp3_jb3.setBounds(0, 319, 92, 35);
+        jp3_jb3.setHorizontalAlignment(SwingConstants.LEFT );
+        jp3_jb3.setFont(new Font("黑体", Font.BOLD, 13));
+        jp3_jb3.setForeground(Color.white);
+        jp3_jb3.setContentAreaFilled(false);
+
+        jp3_jb4 = new JButton("添加群组");
+        jp3_jb4.addActionListener(this);
+        jp3_jb4.setLayout(null);
+        jp3_jb4.setBounds(92, 319, 92, 35);
+        jp3_jb4.setHorizontalAlignment(SwingConstants.LEFT );
+        jp3_jb4.setFont(new Font("黑体", Font.BOLD, 13));
+        jp3_jb4.setForeground(Color.white);
+        jp3_jb4.setContentAreaFilled(false);
+
+        jp3_jb5 = new JButton("通  知");
+        jp3_jb5.addActionListener(this);
+        jp3_jb5.setLayout(null);
+        jp3_jb5.setBounds(184, 319, 93, 35);
+        jp3_jb5.setHorizontalAlignment(SwingConstants.LEFT );
+        jp3_jb5.setFont(new Font("黑体", Font.BOLD, 13));
+        jp3_jb5.setForeground(Color.white);
+        jp3_jb5.setContentAreaFilled(false);
+
+        group_zone();
         jp3.add(jsp2);
         jp3.add(jp3_jb1);
         jp3.add(jp3_jb2);
@@ -437,10 +441,19 @@ public class FriendView implements ActionListener,MouseListener{
         //第一张卡片的按钮
         if(e.getSource()==jp1_jb1)
         {
+            jp2.remove(jsp);
+            // 可能刚刚添加了新的朋友
+            friend_zone();
+            jp2.add(jsp);
             cl.show(jp, "2");
         }
         else if(e.getSource()==jp1_jb2)
         {
+            jp3.remove(jsp2);
+            // 可能加入了新的群聊
+            group_zone();
+            jp3.add(jsp2);
+
             cl.show(jp, "3");
         }
         else if(e.getSource()==jp1_jb3){
@@ -460,6 +473,10 @@ public class FriendView implements ActionListener,MouseListener{
         }
         else if(e.getSource()==jp2_jb2)
         {
+            jp3.remove(jsp2);
+            // 可能加入了新的群聊
+            group_zone();
+            jp3.add(jsp2);
             cl.show(jp, "3");;
         }
         else if(e.getSource()==jp2_jb3){
@@ -475,6 +492,10 @@ public class FriendView implements ActionListener,MouseListener{
         //第三张卡片的按钮
         if(e.getSource()==jp3_jb1)
         {
+            jp2.remove(jsp);
+            // 可能刚刚添加了新的朋友
+            friend_zone();
+            jp2.add(jsp);
             cl.show(jp, "2");
         }
         else if(e.getSource()==jp3_jb2)

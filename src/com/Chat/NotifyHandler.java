@@ -1,8 +1,6 @@
 package com.Chat;
 
-/**
- * Created by lmz on 2018/4/27 0027.
- */
+
 import javax.lang.model.util.SimpleElementVisitor7;
 import java.io.*;
 import java.net.Socket;
@@ -48,9 +46,9 @@ public class NotifyHandler extends Thread {
                     Message msg = (Message) ois.readObject();
 
                     if(msg.getMsg().split(":")[0].equals("file")){
-                        String DB_URL = "jdbc:mysql://LMZ/login";
+                        String DB_URL = "jdbc:mysql://localhost:3306/qq?useSSL=false";
                         String USER = "root";
-                        String PASS = "xflmz36";
+                        String PASS = "123456";
                         Connection conn = null;
                         PreparedStatement pstmt = null;
                         friend_id = Integer.parseInt(msg.getMsg().split(":")[1]);
@@ -138,9 +136,9 @@ public class NotifyHandler extends Thread {
                         if(message.equals("login")){
                             sessionMap.put(admin_id, socket);
                             ArrayList<String> str = new ArrayList<String>();
-                            String DB_URL = "jdbc:mysql://LMZ/login";
+                            String DB_URL = "jdbc:mysql://localhost:3306/qq?useSSL=false";
                             String USER = "root";
-                            String PASS = "xflmz36";
+                            String PASS = "123456";
                             Connection conn = null;
                             PreparedStatement pstmt = null;
                             String name = null;
@@ -209,9 +207,9 @@ public class NotifyHandler extends Thread {
                         }
                         if(sessionMap.get(msg.getIP())==null){
                             //database
-                            String DB_URL = "jdbc:mysql://LMZ/login";
+                            String DB_URL = "jdbc:mysql://localhost:3306/qq?useSSL=false";
                             String USER = "root";
-                            String PASS = "xflmz36";
+                            String PASS = "123456";
                             Connection conn = null;
                             PreparedStatement pstmt = null;
                             String name = null;
@@ -261,11 +259,11 @@ public class NotifyHandler extends Thread {
                         String message = msg.getMsg();
                         System.out.println(msg.getIP());
                         if(sessionMap.get(msg.getIP())==null){
-                            //database
+                            // 对方不在线，将消息存储在数据库，等对方上线再发送
                             //System.out.println("shujuku");
-                            String DB_URL = "jdbc:mysql://LMZ/login";
+                            String DB_URL = "jdbc:mysql://localhost:3306/qq?useSSL=false";
                             String USER = "root";
-                            String PASS = "xflmz36";
+                            String PASS = "123456";
                             Connection conn = null;
                             PreparedStatement pstmt = null;
                             String name = null;
@@ -297,7 +295,7 @@ public class NotifyHandler extends Thread {
                             }
                         }
                         else{
-                            // 发送数据
+                            // 对方在线，直接发送数据即可
                             try {
                                 //System.out.println("message"+msg.getMsg());
                                 Socket targetSocket = sessionMap.get(msg.getIP());

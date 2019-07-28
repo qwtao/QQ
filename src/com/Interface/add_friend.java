@@ -13,9 +13,6 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
-/**
- * Created by LMZ on 2018/4/11.
- */
 
 class frame2_background  {
     public static void setBg(JFrame frame,String path){
@@ -139,9 +136,9 @@ public class add_friend extends JFrame implements ActionListener,MouseListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if(e.getSource()==jp2_jb2){
-            String DB_URL = "jdbc:mysql://LMZ/login";
+            String DB_URL = "jdbc:mysql://localhost:3306/qq?useSSL=false";
             String USER = "root";
-            String PASS = "xflmz36";
+            String PASS = "123456";
             Connection conn = null;
             PreparedStatement pstmt = null;
             String name = null;

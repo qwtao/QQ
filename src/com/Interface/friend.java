@@ -3,13 +3,11 @@ package com.Interface;
 import java.sql.*;
 import java.util.ArrayList;
 
-/**
- * Created by lmz on 2018/4/11 0011.
- */
+
 public class friend {
-    static final String DB_URL = "jdbc:mysql://LMZ/login";
+    static final String DB_URL = "jdbc:mysql://localhost:3306/qq?useSSL=false";
     static final String USER = "root";
-    static final String PASS = "xflmz36";
+    static final String PASS = "123456";
     public ArrayList admin_friend(int admin_id){
         //int admin_id = 1;
         Connection conn = null;

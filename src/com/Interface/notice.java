@@ -110,9 +110,9 @@ public class notice extends JFrame{
     }
 
     private ArrayList<Integer> get_request(int admin_id){
-        String DB_URL = "jdbc:mysql://LMZ/login";
+        String DB_URL = "jdbc:mysql://localhost:3306/qq?useSSL=false";
         String USER = "root";
-        String PASS = "xflmz36";
+        String PASS = "123456";
         Connection conn = null;
         PreparedStatement pstmt = null;
         ArrayList<Integer> strArray = new ArrayList<>();
@@ -147,9 +147,9 @@ public class notice extends JFrame{
     }
 
     private void add_success(int admin_id, int friend_id){
-        String DB_URL = "jdbc:mysql://LMZ/login";
+        String DB_URL = "jdbc:mysql://localhost:3306/qq?useSSL=false";
         String USER = "root";
-        String PASS = "xflmz36";
+        String PASS = "123456";
         Connection conn = null;
         PreparedStatement pstmt = null;
         String name = null;
@@ -190,9 +190,9 @@ public class notice extends JFrame{
     }
 
     private void add_fail(int admin_id, int friend_id){
-        String DB_URL = "jdbc:mysql://LMZ/login";
+        String DB_URL = "jdbc:mysql://localhost:3306/qq?useSSL=false";
         String USER = "root";
-        String PASS = "xflmz36";
+        String PASS = "123456";
         Connection conn = null;
         PreparedStatement pstmt = null;
         String name = null;

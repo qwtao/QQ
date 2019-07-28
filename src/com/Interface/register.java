@@ -5,9 +5,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-/**
- * Created by LMZ on 2018/4/11.
- */
+
 class frame1_background  {
     public static void setBg(JFrame frame,String path) {
         ((JPanel) frame.getContentPane()).setOpaque(false);

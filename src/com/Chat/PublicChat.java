@@ -22,6 +22,7 @@ public class PublicChat extends JFrame {
         setTitle("PublicChat");
         frame_background.setBg(this,"Images/28.jpg");
         setVisible(true);
+        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 
         dialog = new JTextArea();//对话显示框
         dialog.disable();//设置成只读属性
@@ -59,13 +60,6 @@ public class PublicChat extends JFrame {
         close.setContentAreaFilled(false);
         add(close);
         add(send);
-        close.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                setVisible(false);
-            }
-        });
-
 
         str = new friend().group_user(group_id);
         for(int i = 0; i < str.size(); i++){
@@ -77,7 +71,7 @@ public class PublicChat extends JFrame {
         JPanel jp_jsp = new JPanel(new GridLayout(30,1));
         JScrollPane jsp = new JScrollPane(jp_jsp);
         jp_jsp.setOpaque(false);
-       jsp.setOpaque(false);
+        jsp.setOpaque(false);
         jsp.getViewport().setOpaque(false);
 
 
@@ -97,7 +91,7 @@ public class PublicChat extends JFrame {
         add(jsp);
         this.setVisible(true);
         client.check_online(admin_id, str);
-        client.pchat(group_id,this);
+        Thread thread = client.pchat(group_id,this);
         admin_name = new friend().get_id(admin_id);
 
         send.addActionListener(new ActionListener() {
@@ -118,7 +112,16 @@ public class PublicChat extends JFrame {
         close.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                thread.stop();
                 setVisible(false);
+            }
+        });
+
+        addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                super.windowClosing(e);
+                thread.stop();
             }
         });
     }

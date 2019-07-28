@@ -1,13 +1,11 @@
 package com.Interface;
 import java.sql.*;
 
-/**
- * Created by lmz on 2018/4/11 0011.
- */
+
 public class verify {
-    static final String DB_URL = "jdbc:mysql://LMZ/login";
+    static final String DB_URL = "jdbc:mysql://localhost:3306/qq?useSSL=false";
     static final String USER = "root";
-    static final String PASS = "xflmz36";
+    static final String PASS = "123456";
     public boolean verify_login(int id, String pwd){
         Connection conn = null;
         PreparedStatement pstmt = null;

@@ -5,9 +5,6 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-/**
- * Created by Hesijia~ on 2018/5/7.
- */
 public class change_background extends JFrame{
         private int admin_id;
         public boolean flag;

@@ -23,7 +23,7 @@ public class PrivateChat extends JFrame {
     int friend_id;
     JButton send;
     JTextArea input,dialog;
-    MsgSocketClient client = new MsgSocketClient();
+    MsgSocketClient client = new MsgSocketClient(); // todo：多余的实例化，置为null吧
 
     public PrivateChat(int admin_id, String friend_name, MsgSocketClient cc) {
         this.client = cc;
@@ -106,7 +106,7 @@ public class PrivateChat extends JFrame {
         add(send);
         this.setVisible(true);
         dialog.setCaretPosition(dialog.getDocument().getLength());
-        client.chat(friend_id,this);
+        Thread thread = client.chat(friend_id,this);
         admin_name = new friend().get_id(admin_id);
 
         send.addActionListener(new ActionListener() {
@@ -126,6 +126,8 @@ public class PrivateChat extends JFrame {
         });
         addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent e) {
+                super.windowClosing(e);
+                thread.stop();
                 for(int i = 0; i < cc.chat_open.size(); i++){
                     if(cc.chat_open.get(i)==friend_id)
                         cc.chat_open.remove(i);
@@ -136,6 +138,7 @@ public class PrivateChat extends JFrame {
         close.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                thread.stop();
                 setVisible(false);
             }
         });

@@ -5,9 +5,6 @@ package com.Interface;
         import java.awt.event.ActionEvent;
         import java.awt.event.ActionListener;
 
-/**
- * Created by lmz on 2018/4/13 0013.
- */
 public class change_head extends JFrame{
     private int admin_id;
     public boolean flag;
